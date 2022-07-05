@@ -1,8 +1,14 @@
+using System.Reflection;
+using DialogSearcher.WebAPI.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// DI Services
+builder.Services.AddTransient<IMessengerService, MessengerService>();
 
 var app = builder.Build();
 

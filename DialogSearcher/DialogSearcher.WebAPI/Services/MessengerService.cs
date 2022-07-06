@@ -13,10 +13,7 @@ public class MessengerService : IMessengerService
         var result = groupedClientDialogs
             .Where(group => !clientIds.Except(group.Select(item => item.IDClient)).Any()).Select(group => group.Key)
             .ToList();
-
-        if (result.Count == 0 || result.Count > 1)
-            return Guid.Empty;
-
-        return result.First();
+        
+        return result.Count == 1 ? result.First() : Guid.Empty;
     }
 }

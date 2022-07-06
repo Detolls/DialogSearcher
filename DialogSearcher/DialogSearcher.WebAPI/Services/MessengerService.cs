@@ -11,9 +11,12 @@ public class MessengerService : IMessengerService
 
         var groupedClientDialogs = clientDialogs.GroupBy(x => x.IDRGDialog);
         var result = groupedClientDialogs
-            .FirstOrDefault(group => !clientIds.Except(group.Select(item => item.IDClient)).Any())?.Key 
-            ?? Guid.Empty;
+            .Where(group => !clientIds.Except(group.Select(item => item.IDClient)).Any())?.Select(group => group.Key)
+            .ToList();
 
-        return result;
+        if (result.Count == 0 || result.Count > 1)
+            return Guid.Empty;
+
+        return result.First();
     }
 }
